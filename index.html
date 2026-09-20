@@ -10,6 +10,204 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet" />
 <link rel="icon" href="assets/logo.jpeg" />
+<style>
+  /* ---------- Premium Booking Form ---------- */
+  @keyframes aq-float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(14px, -18px) scale(1.05); }
+  }
+  @keyframes aq-float-slow {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-16px, 14px) scale(1.04); }
+  }
+  @keyframes aq-fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes aq-pop {
+    0%   { opacity: 0; transform: scale(0.6); }
+    60%  { opacity: 1; transform: scale(1.08); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes aq-check-draw {
+    from { stroke-dashoffset: 40; }
+    to   { stroke-dashoffset: 0; }
+  }
+  @keyframes aq-ring-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(16,185,129,0.35); }
+    70%  { box-shadow: 0 0 0 14px rgba(16,185,129,0); }
+    100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+  }
+  @keyframes aq-shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes aq-gradient-spin {
+    to { --aq-angle: 360deg; }
+  }
+  @property --aq-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  #book .aq-blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  #book .aq-blob-1 {
+    top: -40px;
+    left: -40px;
+    width: 280px;
+    height: 280px;
+    background: rgba(13,107,122,0.18);
+    animation: aq-float 9s ease-in-out infinite;
+  }
+  #book .aq-blob-2 {
+    bottom: -60px;
+    right: -30px;
+    width: 320px;
+    height: 320px;
+    background: rgba(212,175,106,0.22);
+    animation: aq-float-slow 11s ease-in-out infinite;
+  }
+
+  .aq-card-wrap {
+    position: relative;
+    isolation: isolate;
+  }
+  .aq-card-glow {
+    position: absolute;
+    inset: -2px;
+    border-radius: 2.15rem;
+    padding: 2px;
+    background: conic-gradient(from var(--aq-angle, 0deg), #0d6b7a, #d4af6a, #0d6b7a 50%, #d4af6a 75%, #0d6b7a);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity .5s ease;
+    animation: aq-gradient-spin 6s linear infinite;
+    z-index: 0;
+  }
+  .aq-card-wrap.in .aq-card-glow { opacity: 0.55; }
+
+  .aq-badge-chip {
+    animation: aq-fade-up .6s ease both;
+  }
+
+  .aq-field {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  .aq-card-wrap.in .aq-field {
+    animation: aq-fade-up .55s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  .aq-card-wrap.in .aq-field:nth-of-type(1) { animation-delay: .05s; }
+  .aq-card-wrap.in .aq-field:nth-of-type(2) { animation-delay: .12s; }
+  .aq-card-wrap.in .aq-field:nth-of-type(3) { animation-delay: .19s; }
+  .aq-card-wrap.in .aq-field:nth-of-type(4) { animation-delay: .26s; }
+  .aq-card-wrap.in .aq-field:nth-of-type(5) { animation-delay: .33s; }
+  .aq-card-wrap.in .aq-field:nth-of-type(6) { animation-delay: .40s; }
+  .aq-card-wrap.in .aq-field:nth-of-type(7) { animation-delay: .47s; }
+
+  .aq-input-wrap {
+    position: relative;
+    border-radius: 0.85rem;
+    transition: transform .2s ease;
+  }
+  .aq-input-wrap:focus-within {
+    transform: translateY(-1px);
+  }
+  .aq-input-wrap .aq-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 13px;
+    transition: color .2s ease, transform .2s ease;
+    pointer-events: none;
+  }
+  .aq-input-wrap:focus-within .aq-icon {
+    color: #0d6b7a;
+    transform: translateY(-50%) scale(1.12);
+  }
+  .aq-input-wrap input,
+  .aq-input-wrap select,
+  .aq-input-wrap textarea {
+    padding-left: 2.6rem;
+    background: linear-gradient(#fff,#fff) padding-box;
+    border: 1.5px solid #e2e8f0;
+    transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+  }
+  .aq-input-wrap input:hover,
+  .aq-input-wrap select:hover,
+  .aq-input-wrap textarea:hover {
+    border-color: #cbd5e1;
+  }
+  .aq-input-wrap input:focus,
+  .aq-input-wrap select:focus,
+  .aq-input-wrap textarea:focus {
+    border-color: #0d6b7a;
+    box-shadow: 0 0 0 4px rgba(13,107,122,0.12);
+  }
+  .aq-input-wrap textarea { padding-top: 0.75rem; }
+  .aq-input-wrap select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 2.25rem;
+  }
+  .aq-input-wrap.aq-textarea .aq-icon { top: 22px; transform: none; }
+  .aq-input-wrap.aq-textarea:focus-within .aq-icon { transform: scale(1.12); }
+
+  .aq-submit-btn {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg, #0d6b7a 0%, #12879a 45%, #0d6b7a 100%);
+    background-size: 220% 100%;
+    transition: background-position .6s ease, transform .15s ease, box-shadow .3s ease;
+  }
+  .aq-submit-btn:hover:not(:disabled) {
+    background-position: 100% 0;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -10px rgba(13,107,122,0.55);
+  }
+  .aq-submit-btn:active:not(:disabled) { transform: translateY(0); }
+  .aq-submit-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.35) 40%, transparent 60%);
+    background-size: 250% 100%;
+    animation: aq-shimmer 2.8s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .aq-success-check {
+    animation: aq-pop .5s cubic-bezier(.2,.9,.3,1.2) both, aq-ring-pulse 1.8s ease-out .4s 2;
+  }
+  .aq-success-check svg { overflow: visible; }
+  .aq-success-check svg path {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    animation: aq-check-draw .5s ease .25s forwards;
+  }
+  #booking-success h3, #booking-success p, #booking-success button {
+    opacity: 0;
+    animation: aq-fade-up .5s ease forwards;
+  }
+  #booking-success h3 { animation-delay: .35s; }
+  #booking-success p { animation-delay: .45s; }
+  #booking-success button { animation-delay: .55s; }
+</style>
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-E5PVYJ9X9H"></script>
 <script>
@@ -135,65 +333,97 @@
   </section>
 
   <!-- Booking Form -->
-  <section id="book" class="scroll-mt-24 -mt-4 relative z-10">
+  <section id="book" class="scroll-mt-24 -mt-4 relative z-10 overflow-hidden">
+    <div class="aq-blob aq-blob-1"></div>
+    <div class="aq-blob aq-blob-2"></div>
+
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="bg-white rounded-[2rem] p-6 sm:p-10 shadow-2xl shadow-brand-900/10 ring-1 ring-slate-100">
-        <div class="mb-7 text-center">
-          <span class="text-brand-600 font-semibold text-xs uppercase tracking-widest">Reserve your visit</span>
-          <h2 class="text-2xl sm:text-3xl font-display font-semibold text-slate-900 mt-1">Book Your Appointment</h2>
-          <p class="text-sm text-slate-500 mt-1">Fill out the quick form below and our receptionist will confirm your slot</p>
-        </div>
-
-        <form id="direct-booking-form" onsubmit="handleFormSubmit(event)" class="grid sm:grid-cols-2 gap-4">
-          <div class="sm:col-span-2">
-            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Full Name</label>
-            <input id="f-name" type="text" required placeholder="e.g. Ahmed Al-Busaidi" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none" />
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Phone Number</label>
-            <input id="f-phone" type="tel" required placeholder="+968 9123 4567" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none" />
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Select Service</label>
-            <select id="f-service" required class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none bg-white">
-              <option value="">Choose Treatment</option>
-              <option value="General Consultation">General Consultation</option>
-              <option value="Teeth Whitening">Teeth Whitening</option>
-              <option value="Orthodontics & Aligners">Orthodontics & Aligners</option>
-              <option value="Dental Implants">Dental Implants</option>
-              <option value="Pediatric Care">Pediatric Dental Care</option>
-              <option value="Cosmetic / Veneers">Cosmetic / Veneers</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Preferred Date</label>
-            <input id="f-date" type="date" required class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none" />
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Preferred Shift</label>
-            <select id="f-shift" required class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none bg-white">
-              <option value="Morning Shift (9:00 AM - 1:00 PM)">Morning Shift (9:00 AM – 1:00 PM)</option>
-              <option value="Evening Shift (5:00 PM - 9:00 PM)">Evening Shift (5:00 PM – 9:00 PM)</option>
-            </select>
-          </div>
-          <div class="sm:col-span-2">
-            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Symptoms & Notes <span class="normal-case text-slate-400 font-normal">(optional)</span></label>
-            <textarea id="f-notes" rows="2" placeholder="e.g. sensitivity in lower left molar" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none resize-none"></textarea>
+      <div class="aq-card-wrap reveal" id="book-card">
+        <div class="aq-card-glow"></div>
+        <div class="relative z-10 bg-white rounded-[2rem] p-6 sm:p-10 shadow-2xl shadow-brand-900/10 ring-1 ring-slate-100">
+          <div class="mb-7 text-center">
+            <span class="aq-badge-chip inline-flex items-center gap-2 text-brand-600 font-semibold text-xs uppercase tracking-widest bg-brand-50 px-3.5 py-1.5 rounded-full">
+              <i class="fa-solid fa-sparkles text-gold-500"></i> Reserve your visit
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-display font-semibold text-slate-900 mt-1">Book Your Appointment</h2>
+            <p class="text-sm text-slate-500 mt-1">Fill out the quick form below and our receptionist will confirm your slot</p>
           </div>
 
-          <button type="submit" id="submit-btn" class="sm:col-span-2 w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3.5 rounded-xl transition-all shadow-md shadow-brand-500/25 mt-1 disabled:opacity-60">
-            Confirm & Submit Booking
-          </button>
-          <p class="sm:col-span-2 text-center text-[11px] text-slate-400">By booking you agree to be contacted by phone or WhatsApp to confirm your appointment time.</p>
-        </form>
+          <form id="direct-booking-form" onsubmit="handleFormSubmit(event)" class="grid sm:grid-cols-2 gap-4">
+            <div class="aq-field sm:col-span-2">
+              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Full Name</label>
+              <div class="aq-input-wrap">
+                <i class="fa-solid fa-user aq-icon"></i>
+                <input id="f-name" type="text" required placeholder="e.g. Ahmed Al-Busaidi" class="w-full rounded-xl px-4 py-3 text-sm outline-none" />
+              </div>
+            </div>
+            <div class="aq-field">
+              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Phone Number</label>
+              <div class="aq-input-wrap">
+                <i class="fa-solid fa-phone aq-icon"></i>
+                <input id="f-phone" type="tel" required placeholder="+968 9123 4567" class="w-full rounded-xl px-4 py-3 text-sm outline-none" />
+              </div>
+            </div>
+            <div class="aq-field">
+              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Select Service</label>
+              <div class="aq-input-wrap">
+                <i class="fa-solid fa-tooth aq-icon"></i>
+                <select id="f-service" required class="w-full rounded-xl px-4 py-3 text-sm outline-none bg-white">
+                  <option value="">Choose Treatment</option>
+                  <option value="General Consultation">General Consultation</option>
+                  <option value="Teeth Whitening">Teeth Whitening</option>
+                  <option value="Orthodontics & Aligners">Orthodontics & Aligners</option>
+                  <option value="Dental Implants">Dental Implants</option>
+                  <option value="Pediatric Care">Pediatric Dental Care</option>
+                  <option value="Cosmetic / Veneers">Cosmetic / Veneers</option>
+                </select>
+              </div>
+            </div>
+            <div class="aq-field">
+              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Preferred Date</label>
+              <div class="aq-input-wrap">
+                <i class="fa-solid fa-calendar-days aq-icon"></i>
+                <input id="f-date" type="date" required class="w-full rounded-xl px-4 py-3 text-sm outline-none" />
+              </div>
+            </div>
+            <div class="aq-field">
+              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Preferred Shift</label>
+              <div class="aq-input-wrap">
+                <i class="fa-solid fa-clock aq-icon"></i>
+                <select id="f-shift" required class="w-full rounded-xl px-4 py-3 text-sm outline-none bg-white">
+                  <option value="Morning Shift (9:00 AM - 1:00 PM)">Morning Shift (9:00 AM – 1:00 PM)</option>
+                  <option value="Evening Shift (5:00 PM - 9:00 PM)">Evening Shift (5:00 PM – 9:00 PM)</option>
+                </select>
+              </div>
+            </div>
+            <div class="aq-field sm:col-span-2">
+              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Symptoms & Notes <span class="normal-case text-slate-400 font-normal">(optional)</span></label>
+              <div class="aq-input-wrap aq-textarea">
+                <i class="fa-solid fa-notes-medical aq-icon"></i>
+                <textarea id="f-notes" rows="2" placeholder="e.g. sensitivity in lower left molar" class="w-full rounded-xl px-4 py-3 text-sm outline-none resize-none"></textarea>
+              </div>
+            </div>
 
-        <div id="booking-success" class="hidden text-center py-8 space-y-4">
-          <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-3xl">
-            <i class="fa-solid fa-check"></i>
+            <div class="aq-field sm:col-span-2">
+              <button type="submit" id="submit-btn" class="aq-submit-btn w-full text-white font-semibold py-3.5 rounded-xl mt-1 disabled:opacity-60">
+                <span class="relative z-10 inline-flex items-center justify-center gap-2">
+                  <i class="fa-solid fa-calendar-check"></i> Confirm & Submit Booking
+                </span>
+              </button>
+              <p class="text-center text-[11px] text-slate-400 mt-4">By booking you agree to be contacted by phone or WhatsApp to confirm your appointment time.</p>
+            </div>
+          </form>
+
+          <div id="booking-success" class="hidden text-center py-8 space-y-4">
+            <div class="aq-success-check w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
+              <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                <path d="M6 15.5L12 21L24 8" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-display font-semibold text-slate-900">Booking Request Received!</h3>
+            <p class="text-sm text-slate-600 max-w-sm mx-auto">Thank you. Our clinic receptionist will contact you shortly via phone or WhatsApp to confirm your exact appointment time.</p>
+            <button onclick="resetForm()" class="text-sm text-brand-600 font-semibold hover:underline">Book another appointment</button>
           </div>
-          <h3 class="text-2xl font-display font-semibold text-slate-900">Booking Request Received!</h3>
-          <p class="text-sm text-slate-600 max-w-sm mx-auto">Thank you. Our clinic receptionist will contact you shortly via phone or WhatsApp to confirm your exact appointment time.</p>
-          <button onclick="resetForm()" class="text-sm text-brand-600 font-semibold hover:underline">Book another appointment</button>
         </div>
       </div>
     </div>
